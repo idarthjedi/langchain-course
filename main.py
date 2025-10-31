@@ -5,8 +5,6 @@ from langchain_ollama import ChatOllama
 load_dotenv()
 
 
-
-
 def main():
     summary_template = """
     Given the information {information} about a person, I want you to create:
@@ -22,12 +20,10 @@ def main():
     Calvin was originally trained as a humanist lawyer. He broke from the Roman Catholic Church around 1530. After religious tensions erupted in widespread deadly violence against Protestant Christians in France, Calvin fled to Basel, Switzerland, where in 1536 he published the first edition of the Institutes. In the same year, Calvin was recruited by Frenchman William Farel to join the Reformation in Geneva, where he regularly preached sermons throughout the week. However, the governing council of the city resisted the implementation of their ideas, and both men were expelled. At the invitation of Martin Bucer, Calvin proceeded to Strasbourg, where he became the minister of a church of French refugees. He continued to support the reform movement in Geneva, and in 1541 he was invited back to lead the church of the city."""
 
     summary_prompt_template = PromptTemplate(
-        input_variables=["information"],
-        template=summary_template
+        input_variables=["information"], template=summary_template
     )
 
-    llm = ChatOllama(temperature=0,
-                     model="gpt-oss:20b")
+    llm = ChatOllama(temperature=0, model="gpt-oss:20b")
 
     chain = summary_prompt_template | llm
     response = chain.invoke(input={"information": information})
