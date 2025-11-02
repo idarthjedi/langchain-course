@@ -8,9 +8,10 @@ from langchain_classic.agents.react.agent import create_react_agent
 from langchain_core.output_parsers.pydantic import PydanticOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableLambda
-from langchain_openai import ChatOpenAI
+#from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
 from langchain_tavily import TavilySearch
+from openai import OpenAI
 
 from prompt import REACT_PROMPT_WITH_FORMAT_INSTRUCTIONS
 from schemas import AgentResponse
@@ -24,9 +25,11 @@ USE_PYDANDIC_OUTPUT: bool = False
 
 tools = [TavilySearch()]
 #llm = ChatOpenAI(model="gpt-4")
-llm = ChatOllama(model="llama3.3:70b")
+llm = ChatOllama(model="gpt-oss:120b")
 react_prompt = hub.pull("hwchase17/react")
 if USE_PYDANDIC_OUTPUT:
+    # Pydantic output parser does not always work with LLMs
+    # As the pydantic parser uses RegEx, and not all LLMs respond appropriately.
     output_parser = PydanticOutputParser(pydantic_object=AgentResponse)
     react_prompt_with_format_instructions = PromptTemplate(
         template=REACT_PROMPT_WITH_FORMAT_INSTRUCTIONS,
