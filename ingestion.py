@@ -15,6 +15,7 @@ if __name__ == "__main__":
     loader = PyPDFLoader("passkeys.pdf")
     document = loader.load()
 
+
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 
     # retrieve the content from the PDF
@@ -36,7 +37,7 @@ if __name__ == "__main__":
 
     ids = [f"doc_{i}" for i in range(len(texts))]
     metadatas = [
-        {"source": "your_document.pdf", "page": chunk.metadata.get("page", "N/A")}
+        {"source": loader.source, "page": chunk.metadata.get("page", "N/A")}
         for chunk in texts
     ]
     documents_to_add = [chunk.page_content for chunk in texts]
