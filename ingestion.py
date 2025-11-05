@@ -15,8 +15,10 @@ if __name__ == "__main__":
     loader = PyPDFLoader("passkeys.pdf")
     document = loader.load()
 
-
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+    print("splitting...")
+    text_splitter = CharacterTextSplitter(
+        chunk_size=1000, chunk_overlap=50, separator="\n"
+    )
 
     # retrieve the content from the PDF
     # content = "".join([x.page_content for x in document])
@@ -44,5 +46,3 @@ if __name__ == "__main__":
 
     collection.add(documents=documents_to_add, metadatas=metadatas, ids=ids)
     print(f"Added {len(texts)} chunks to ChromaDB.")
-
-    print("splitting...")
