@@ -6,8 +6,9 @@ from langchain_tavily import TavilySearch
 
 load_dotenv()
 
+
 @tool
-def triple(num:float) -> float:
+def triple(num: float) -> float:
     """
 
     :param num: a number to triple
@@ -15,6 +16,7 @@ def triple(num:float) -> float:
     """
     return float(num) * 3
 
+
 tools = [TavilySearch(max_results=1), triple]
 
-llm = ChatOpenAI(model="gpt-oss:120b", temperature=0).bind_tools(tools)
+llm = ChatOllama(model="gpt-oss:120b", temperature=0).bind_tools(tools)
