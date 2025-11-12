@@ -19,13 +19,14 @@ GENERATE: str = "generate"
 
 
 def generation_node(state: MessageGraph):
+    # return {"messages": [generate_chain.invoke({"messages": state["messages"]})]}
     return {"messages": [generate_chain.invoke({"messages": state["messages"]})]}
 
-
 def reflection_node(state: MessageGraph):
-    res = reflect_chain.invoke({"messages": state["messages"]})
-    return {"messages": [HumanMessage(content=res.content)]}
-
+    #res = reflect_chain.invoke({"messages": state["messages"]})
+    #return {"messages": [HumanMessage(content=res.content)]}
+    response = reflect_chain.invoke({"messages": state["messages"]})
+    return {"messages": [HumanMessage(content=response.content)]}
 
 builder = StateGraph(state_schema=MessageGraph)
 builder.add_node(GENERATE, generation_node)
@@ -57,4 +58,4 @@ if __name__ == "__main__":
     """
     )
 
-    graph.invoke(inputs)
+    graph.invoke({"messages": [inputs]})
